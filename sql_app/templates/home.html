@@ -8,9 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
     <script>const EditTable = (table_id) => {window.location.href = "/table_editor/" + table_id;}</script>
-    <script>const CreateTable = (table_name) => {window.location.href = "/table_creator/" + document.getElementById("ModalCreateTableInputName").value;}</script>
-    <script>const DeleteTable = (table_name) => {window.location.href = "/table_remover/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
-    <script>const FilterTable = (table_name) => {window.location.href = "/table_remover/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
+    <script>const CreateTable = () => {window.location.href = "/table_creator/" + document.getElementById("ModalCreateTableInputName").value;}</script>
+    <script>const DeleteTable = () => {window.location.href = "/table_remover/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
+    <script>const FilterTable = () => {window.location.href = "/table_filter/" + document.getElementById("FilterTableName").value;}</script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
@@ -71,10 +71,10 @@
             </div>
 
             <div class="container p-2 flex-fill bd-highlight">
-                <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+              <div class="d-flex">
+                <input class="form-control me-2" type="search" id="FilterTableName" placeholder="{{ filter }}" aria-label="Поиск">
+                <button class="btn btn-outline-success" type="button" onclick="FilterTable();">Поиск</button>
+              </div>
             </div>
         </div>
 

@@ -100,7 +100,13 @@ async def home(request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).offset(0).limit(20).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": ""})
+
+
+# Проверка на пустой фильтр
+@app.get("/table_filter", response_class=HTMLResponse)
+async def home(request: Request, db: db_dependence):
+    return RedirectResponse("/table_selector")
 
 
 # Вывод главной страницы c фильтром
@@ -108,17 +114,23 @@ async def home(request: Request, db: db_dependence):
 async def home(table_name: str, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(0).limit(20).all()
     if not db_answer:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+        raise RedirectResponse("/table_selector")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": table_name})
+
+
+# Проверка на пустой игнор-фильтр
+@app.get("/table_ignore_filter", response_class=HTMLResponse)
+async def home(request: Request, db: db_dependence):
+    return RedirectResponse("/table_selector")
 
 
 # Вывод главной страницы c игнор-фильтром
 @app.get("/table_ignore_filter/{table_name}", response_class=HTMLResponse)
-async def home(table_name: str, request: Request, db: db_dependence):
+async def home(table_name: str or None, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(0).limit(20).all()
     if not db_answer:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+        return RedirectResponse("/table_selector")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": ""})
 
 
 # Вывод страницы для редоктирования таблицы
@@ -126,7 +138,7 @@ async def home(table_name: str, request: Request, db: db_dependence):
 async def home(table_id: int, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).offset(0).limit(20).all()
     if not db_answer:
-        raise HTTPException(status_code=404, detail="Table(s) with this id is not exist")
+        return RedirectResponse("/table_selector")
     return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
 
 
