@@ -1,15 +1,15 @@
-from typing import Annotated
 import models
 from schemas import DatumBase
-from database import engine, SessionLocal, Base
+from database import engine, SessionLocal
 from sqlalchemy.orm import Session
+from typing import Annotated
 
-from fastapi import FastAPI, Body, Request, status, Depends
+from fastapi import FastAPI, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
@@ -95,6 +95,61 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 # Вывод главной страницы
-@app.get("/", response_class=HTMLResponse)
-async def read_item(request: Request):  # , db=Depends(Annotated[Session, Depends(get_db)])
-    return templates.TemplateResponse("base.html", {"request": request, "tables": ["Hello", "World", "Im", "Friendly"]})
+@app.get("/table_selector", response_class=HTMLResponse)
+async def home(request: Request, db: db_dependence):
+    db_answer = db.query(models.Datum).offset(0).limit(20).all()
+    if not db_answer:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+
+
+# Вывод главной страницы c фильтром
+@app.get("/table_filter/{table_name}", response_class=HTMLResponse)
+async def home(table_name: str, request: Request, db: db_dependence):
+    db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(0).limit(20).all()
+    if not db_answer:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+
+
+# Вывод главной страницы c игнор-фильтром
+@app.get("/table_ignore_filter/{table_name}", response_class=HTMLResponse)
+async def home(table_name: str, request: Request, db: db_dependence):
+    db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(0).limit(20).all()
+    if not db_answer:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+
+
+# Вывод страницы для редоктирования таблицы
+@app.get("/table_editor/{table_id}", response_class=HTMLResponse)
+async def home(table_id: int, request: Request, db: db_dependence):
+    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).offset(0).limit(20).all()
+    if not db_answer:
+        raise HTTPException(status_code=404, detail="Table(s) with this id is not exist")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+
+
+# Создаёт пустые таблицы + вывод начальной страницы
+@app.get("/table_creator/{table_name}", response_class=HTMLResponse)
+async def home(table_name: str, request: Request, db: db_dependence):
+    db_answer = models.Datum(table_name=table_name, table_datum={"0": 0, '1': 0})
+    db.add(db_answer)
+    db.commit()
+    db.refresh(db_answer)
+
+    if not db_answer:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return RedirectResponse("/table_selector")
+
+
+# Удаление всех таблиц по имени + вывод начальной страницы
+@app.get("/table_remover/{table_name}", response_class=HTMLResponse)
+async def home(table_name: str, request: Request, db: db_dependence):
+    db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).first()
+    while db_answer:
+        db.delete(db_answer)
+        db.commit()
+        db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).first()
+
+    return RedirectResponse("/table_selector")
