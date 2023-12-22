@@ -100,7 +100,7 @@ async def home(request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).offset(0).limit(20).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": ""})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
 
 
 # Проверка на пустой фильтр
@@ -114,7 +114,7 @@ async def home(request: Request, db: db_dependence):
 async def home(table_name: str, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(0).limit(20).all()
     if not db_answer:
-        raise RedirectResponse("/table_selector")
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
     return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": table_name})
 
 
@@ -126,20 +126,20 @@ async def home(request: Request, db: db_dependence):
 
 # Вывод главной страницы c игнор-фильтром
 @app.get("/table_ignore_filter/{table_name}", response_class=HTMLResponse)
-async def home(table_name: str or None, request: Request, db: db_dependence):
+async def home(table_name: str, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(0).limit(20).all()
     if not db_answer:
-        return RedirectResponse("/table_selector")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": ""})
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "ignore_filter": table_name})
 
 
 # Вывод страницы для редоктирования таблицы
 @app.get("/table_editor/{table_id}", response_class=HTMLResponse)
 async def home(table_id: int, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).offset(0).limit(20).all()
+    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
     if not db_answer:
-        return RedirectResponse("/table_selector")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer})
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("edit.html", {"request": request, "table": db_answer})
 
 
 # Создаёт пустые таблицы + вывод начальной страницы

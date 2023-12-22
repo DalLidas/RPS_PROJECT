@@ -11,74 +11,99 @@
     <script>const CreateTable = () => {window.location.href = "/table_creator/" + document.getElementById("ModalCreateTableInputName").value;}</script>
     <script>const DeleteTable = () => {window.location.href = "/table_remover/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
     <script>const FilterTable = () => {window.location.href = "/table_filter/" + document.getElementById("FilterTableName").value;}</script>
+    <script>const IgnoreFilterTable = () => {window.location.href = "/table_ignore_filter/" + document.getElementById("IgnoreFilterTableName").value;}</script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
     <div class="main_container">
+         <!-- Блок Лейбла -->
         <nav class="flex justify-center text-3xl my-3">
                <h1 class="title">Сортировки от Вовки</h1>
         </nav>
 
-        <div class="d-flex bd-highlight">
-            <div class="container p-1 flex-fill bd-highlight">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalCreator">Создать новую таблицу</button>
+        <!-- Блок Меню -->
+        <div class="container">
+            <h3 class="main_sub_label">Меню</h3>
+            <hr>
 
-                <div class="modal fade" id="ModalCreator" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="ModalCreatorLabel">Создание новой таблицы</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="mb-3">
-                          <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
-                          <input type="text" class="form-control" id="ModalCreateTableInputName" placeholder="Название">
+            <!-- Блок Пунктов Меню -->
+            <div class="d-flex bd-highlight">
+                <!-- Блок Создания таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalCreator">Создать новую таблицу</button>
+
+                    <div class="modal fade" id="ModalCreator" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="ModalCreatorLabel">Создание новой таблицы</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
+                              <input type="text" class="form-control" id="ModalCreateTableInputName" placeholder="Название">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary" onclick="CreateTable();" data-bs-dismiss="modal">Создать</button>
+                          </div>
                         </div>
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="button" class="btn btn-primary" onclick="CreateTable();" data-bs-dismiss="modal">Создать</button>
-                      </div>
                     </div>
-                  </div>
                 </div>
-            </div>
 
-            <div class="container p-1 flex-fill bd-highlight">
-                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalRemover">Удалить таблицы</button>
+                <!-- Блок Удаления таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalRemover">Удалить таблицы</button>
 
-                <div class="modal fade" id="ModalRemover" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="ModalRemoverLabel">Удаление таблиц</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="mb-3">
-                          <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
-                          <input type="text" class="form-control" id="ModalCreateTableDeleteName" placeholder="Название">
+                    <div class="modal fade" id="ModalRemover" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="ModalRemoverLabel">Удаление таблиц</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
+                              <input type="text" class="form-control" id="ModalCreateTableDeleteName" placeholder="Название">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary" onclick="DeleteTable();" data-bs-dismiss="modal">Удалить</button>
+                          </div>
                         </div>
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                        <button type="button" class="btn btn-primary" onclick="DeleteTable();" data-bs-dismiss="modal">Удалить</button>
-                      </div>
                     </div>
+                </div>
+
+                <!-- Блок Игнор-Фильтра для таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                  <div class="d-flex">
+                    <input class="form-control me-2 border border-warning" type="search" id="IgnoreFilterTableName" value="{{ ignore_filter }}" aria-label="Игнорировать">
+                    <button class="btn btn-outline-warning" type="button" onclick="IgnoreFilterTable();">Игнорировать</button>
                   </div>
                 </div>
-            </div>
 
-            <div class="container p-2 flex-fill bd-highlight">
-              <div class="d-flex">
-                <input class="form-control me-2" type="search" id="FilterTableName" placeholder="{{ filter }}" aria-label="Поиск">
-                <button class="btn btn-outline-success" type="button" onclick="FilterTable();">Поиск</button>
-              </div>
+                <!-- Блок Фильтра для таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                  <div class="d-flex">
+                    <input class="form-control me-2 border border-success" type="search" id="FilterTableName" value="{{ filter }}" aria-label="Поиск">
+                    <button class="btn btn-outline-success" type="button" onclick="FilterTable();">Поиск</button>
+                  </div>
+                </div>
             </div>
         </div>
 
+
+        <!-- Блок Таблиц -->
         <div class="container">
+            <h3 class="main_sub_label">Таблицы</h3>
+            <hr>
+
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
             {% for table in tables %}
             <div class="col">

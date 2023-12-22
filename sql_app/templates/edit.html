@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
+    <title>Сортировки от Вовки</title>
+</head>
+<body>
+    <div class="main_container">
+        <!-- Блок Лейбла -->
+        <nav class="flex justify-center text-3xl my-3">
+               <h1 class="title">Сортировки от Вовки</h1>
+        </nav>
+
+        <!-- Блок Меню -->
+        <div class="container">
+            <h3 class="main_sub_label">Меню</h3>
+            <hr>
+
+
+        </div>
+
+        <!-- Блок Демонстрирующий таблицу -->
+        <div class="container">
+            <h3 class="main_sub_label">Таблица: {{ table.table_name }} - id#{{ table.table_id }}</h3>
+            <hr>
+
+            <div class="">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="orig-table">{{ table.table_name }} - orig</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="orig-table" disabled value="{{table.table_datum['0']}}">
+
+                </div>
+                {% if table.sort_flag %}
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="sort-table">{{ table.table_name }} - sort</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default" disabled value="{{table.table_datum['1']}}">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
