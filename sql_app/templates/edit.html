@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
+    <script>const DeleteTable = () => {window.location.href = "/table_remover_by_id/" + {{ table.table_id }};}</script>
+    <script>const SortTable = () => {window.location.href = "/table_sorter/" + {{ table.table_id }};}</script>
+    <script>const ChangeTable = () => {window.location.href = "/table_changer/" + {{ table.table_id }};}</script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
@@ -21,6 +24,47 @@
             <h3 class="main_sub_label">Меню</h3>
             <hr>
 
+            <!-- Блок Пунктов Меню -->
+            <div class="d-flex bd-highlight">
+                <!-- Блок Внесений изменений в таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEditor">Изменить таблицу</button>
+
+                    <div class="modal fade" id="ModalEditor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="ModalCreatorLabel">Создание новой таблицы</h5>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
+                              <input type="text" class="form-control" id="ModalCreateTableInputName" placeholder="Название">
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary" onclick="ChangeTable();" data-bs-dismiss="modal">Создать</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+                <!-- Блок Сортировки таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                  <div class="d-flex">
+                    <button class="btn btn btn-primary" type="button" onclick="SortTable();">Сортировать таблицу</button>
+                  </div>
+                </div>
+
+                <!-- Блок Удаления таблиц -->
+                <div class="p-2 flex-fill bd-highlight">
+                  <div class="d-flex">
+                    <button class="btn btn-outline-danger" type="button" onclick="DeleteTable();">Удалить таблицу</button>
+                  </div>
+                </div>
+            </div>
 
         </div>
 
@@ -47,4 +91,7 @@
         </div>
     </div>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
 </html>
