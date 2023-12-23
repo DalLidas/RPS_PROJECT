@@ -16,6 +16,10 @@ body{
     align-items: center;
 }
 
+.title{
+    padding-top: 30px;
+}
+
 .container{
     margin-top: 40px;
 }
@@ -23,6 +27,11 @@ body{
 .main_container{
     height: 100%;
     width: 70%;
+}
+
+.btn {
+    height: 100%;
+    width: 100%;
 }
 
 .btn-primary{
@@ -94,22 +103,98 @@ body{
     color: #efeff1;
     background-color: #38383f;
     border-color: #38383f;
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-outline-success:after {
+  content: "";
+  position: absolute;
+  left: 70%;
+  bottom: 0;
+  width: 30%;
+  height: 40px;
+  background: linear-gradient(90deg, transparent, #38383f 80%);
 }
 
 .btn-outline-success:hover {
     color: #efeff1;
     background-color: #9569FF;
     border-color: #9569FF;
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-outline-success:hover:after {
+  content: "";
+  position: absolute;
+  left: 70%;
+  bottom: 0;
+  width: 30%;
+  height: 40px;
+  background: linear-gradient(90deg, transparent, #9569FF 80%);
 }
 
 .btn-check:active+.btn-outline-success, .btn-check:checked+.btn-outline-success, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show, .btn-outline-success:active {
     color: #efeff1;
     background-color: #9147FF;
     border-color: #9147FF;
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-check:active+.btn-outline-success, .btn-check:checked+.btn-outline-success, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show, .btn-outline-success:active:after {
+  content: "";
+  position: absolute;
+  left: 70%;
+  bottom: 0;
+  width: 30%;
+  height: 40px;
+  background: linear-gradient(90deg, transparent, #9147FF 80%);
 }
 
 .btn-check:focus+.btn-outline-success, .btn-outline-success:focus {
     box-shadow: 0 0 0 0.25rem rgba(104,38,203,.5);
+}
+
+.btn-outline-danger {
+    color: #efeff1;
+    border-color: #dc3545;
+    background-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    color: #efeff1;
+    background-color: #bb2d3b;
+    border-color: #bb2d3b;
+}
+
+.input-group-text {
+    color: #efeff1;
+    background-color: #2f2f35;
+    border: #2f2f35;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #18181f;
+}
+
+.form-control {
+    background-color: #18181b;
+    color: #efeff1;
+    border-color: #2f2f35;
+}
+
+.modal-header {
+    border-bottom: #1c1c1e;
+}
+
+.modal-content {
+    background-color: #1c1c1e;
+}
+
+.modal-footer {
+    border-top: #1c1c1e;
 }
 
 hr{
