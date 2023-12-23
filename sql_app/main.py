@@ -1,5 +1,5 @@
 import models
-from database import engine, db_dependence
+from database import engine
 
 from fastapi import FastAPI, Request, status, Depends
 from fastapi.encoders import jsonable_encoder

@@ -102,12 +102,16 @@ async def sort_table(table_id: int, request: Request, db: db_dependence):
 @router.put("/change_table/{table_id}")
 async def change_table(table_id: int, table_name: str, data: list[float], request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
+    json_data = jsonable_encoder(db_answer.table_datum)
+    json_data["0"] = jsonable_encoder(data)
 
     db_answer.table_name = table_name
-    db_answer.table_datum["0"] = data
     db_answer.sort_flag = False
+    db_answer.table_datum = json_data
 
     db.commit()
     db.refresh(db_answer)
 
     return db_answer
+
+
