@@ -12,6 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from CRUD import router as crud_router, get_tables, get_ignore_filtered_tables, get_table_by_name, get_table_by_id, \
     create_table, remove_table_by_id, remove_table_by_name, sort_table, change_table
 
+from CRUDDebug import router as crud_debug_router
+
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
 
@@ -20,6 +22,15 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 app.include_router(crud_router)
+app.include_router(crud_debug_router)
+
+
+# Вывод дебаг страницы
+@app.get("/table_debug", response_class=HTMLResponse)
+async def table_selector(request: Request, data=Depends(get_tables)):
+    if not data:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("debug.html", {"request": request, "tables": data})
 
 
 # Разширенная обработка ошибок валидации данных/

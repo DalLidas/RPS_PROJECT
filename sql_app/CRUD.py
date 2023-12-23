@@ -17,7 +17,7 @@ async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit
     db_answer = db.query(models.Datum).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # # Запрос на вывод таблицы по name
@@ -26,7 +26,7 @@ async def get_table_by_name(table_name: str, request: Request, db: db_dependence
     db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # Запрос на вывод таблицы по id
@@ -35,7 +35,7 @@ async def get_table_by_id(table_id: int, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # Запрос для вывода таблиц по игнор фильтру
@@ -44,7 +44,7 @@ async def get_ignore_filtered_tables(table_name: str, request: Request, db: db_d
     db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # Создаёт пустые таблицы + вывод начальной страницы
@@ -57,7 +57,7 @@ async def create_table(table_name: str, request: Request, db: db_dependence):
 
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # Удаление всех таблиц по имени
@@ -69,7 +69,7 @@ async def remove_table_by_name(table_name: str, request: Request, db: db_depende
         db.commit()
         db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).first()
 
-    return db_answer
+    return {"status_code": 200, "db_answer_last": db_answer}
 
 
 # Удаление таблицы по id
@@ -79,7 +79,7 @@ async def remove_table_by_id(table_id: int, request: Request, db: db_dependence)
     db.delete(db_answer)
     db.commit()
 
-    return db_answer
+    return {"status_code": 200, "db_answer_last": db_answer}
 
 
 # Сортировка таблицы
@@ -95,7 +95,7 @@ async def sort_table(table_id: int, request: Request, db: db_dependence):
     db.commit()
     db.refresh(db_answer)
 
-    return db_answer
+    return {"status_code": 200, "db_answer": db_answer}
 
 
 # Изменение таблицы
@@ -112,6 +112,6 @@ async def change_table(table_id: int, table_name: str, data: list[float], reques
     db.commit()
     db.refresh(db_answer)
 
-    return {"status": 200}
+    return {"status_code": 200, "db_answer": db_answer}
 
 
