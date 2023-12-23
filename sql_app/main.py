@@ -1,6 +1,3 @@
-import models
-from database import engine
-
 from fastapi import FastAPI, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError, HTTPException
@@ -9,10 +6,11 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
+import models
+from database import engine
+
 from CRUD import router as crud_router, get_tables, get_ignore_filtered_tables, get_table_by_name, get_table_by_id, \
     create_table, remove_table_by_id, remove_table_by_name, sort_table, change_table
-
-from CRUDDebug import router as crud_debug_router, create_random_table, sort_many_table, delete_table
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -24,39 +22,6 @@ templates = Jinja2Templates(directory="templates")
 
 # роутеры
 app.include_router(crud_router)
-app.include_router(crud_debug_router)
-
-
-# Вывод дебаг страницы
-@app.get("/table_debug", response_class=HTMLResponse)
-async def table_selector(request: Request, data=Depends(get_tables)):
-    if data["status_code"] != 200:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
-
-
-# Вывод дебаг создание страницы
-@app.get("/table_debug/create/{table_name}", response_class=HTMLResponse)
-async def table_debug_create(table_name: str, request: Request, data=Depends(create_random_table)):
-    if data["status_code"] != 200:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
-
-
-# Вывод дебаг сортировка страницы
-@app.get("/table_debug/sort/{table_name}", response_class=HTMLResponse)
-async def table_debug_sort(table_name: str, request: Request, data=Depends(sort_many_table)):
-    if data["status_code"] != 200:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
-
-
-# Вывод  дебаг удаление страницы
-@app.get("/table_debug/delete/{table_name}", response_class=HTMLResponse)
-async def table_debug_delete(table_name: str, request: Request, data=Depends(delete_table)):
-    if data["status_code"] != 200:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
 
 
 # Разширенная обработка ошибок валидации данных/

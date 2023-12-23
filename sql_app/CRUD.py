@@ -1,19 +1,21 @@
 from fastapi import APIRouter, Request
 from fastapi.exceptions import HTTPException
-
 from fastapi.encoders import jsonable_encoder
+
 import models
 from database import db_dependence
 
+from sortings.tree_sort import tree_sort
+
 router = APIRouter(
     prefix="/CRUD",
-    tags=["CRUD"]
+    tags=["CRUD"],
 )
 
 
 # Запрос для вывода всех таблиц
 @router.get("/get_tables")
-async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit: int = 20):
+async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit: int = 40):
     db_answer = db.query(models.Datum).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
@@ -22,7 +24,7 @@ async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit
 
 # # Запрос на вывод таблицы по name
 @router.get("/get_table_by_name")
-async def get_table_by_name(table_name: str, request: Request, db: db_dependence, offset: int = 0, limit: int = 20):
+async def get_table_by_name(table_name: str, request: Request, db: db_dependence, offset: int = 0, limit: int = 40):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
@@ -40,7 +42,7 @@ async def get_table_by_id(table_id: int, request: Request, db: db_dependence):
 
 # Запрос для вывода таблиц по игнор фильтру
 @router.get("/get_ignore_filtered_tables")
-async def get_ignore_filtered_tables(table_name: str, request: Request, db: db_dependence, offset: int = 0, limit: int = 20):
+async def get_ignore_filtered_tables(table_name: str, request: Request, db: db_dependence, offset: int = 0, limit: int = 40):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(offset).limit(limit).all()
     if not db_answer:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
@@ -87,7 +89,7 @@ async def remove_table_by_id(table_id: int, request: Request, db: db_dependence)
 async def sort_table(table_id: int, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
     data = jsonable_encoder(db_answer.table_datum)
-    data["1"] = sorted(data["0"])
+    data["1"] = tree_sort(data["0"])
 
     db_answer.sort_flag = True
     db_answer.table_datum = data
