@@ -31,7 +31,7 @@ async def create_random_table(table_name: str, table_number: int, request: Reque
 
 # Создаёт пустые таблицы + вывод начальной страницы
 @router.post("/sort_table/{table_name}")
-async def sort_many_table(table_name: str, table_number: int, request: Request, db: db_dependence):
+async def sort_table(table_name: str, table_number: int, request: Request, db: db_dependence):
     db_answers = db.query(models.Datum).filter(models.Datum.table_id == table_name).limit(table_number).all()
     for db_answer in db_answers:
         data = jsonable_encoder(db_answer.table_datum)
@@ -47,12 +47,11 @@ async def sort_many_table(table_name: str, table_number: int, request: Request, 
 
 
 # Создаёт пустые таблицы + вывод начальной страницы
-@router.delete("/delete_table/{table_name}")
-async def delete_table(table_name: str, table_number: int, request: Request, db: db_dependence):
+@router.post("/delete_table/{table_name}")
+async def create_random_table(table_name: str, table_number: int, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).limit(table_number).all()
 
     db.delete(db_answer)
     db.commit()
 
-<<<<<<< HEAD
     return {"status_code": 200, "db_answer": db_answer}

@@ -12,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from CRUD import router as crud_router, get_tables, get_ignore_filtered_tables, get_table_by_name, get_table_by_id, \
     create_table, remove_table_by_id, remove_table_by_name, sort_table, change_table
 
-from CRUDDebug import router as crud_debug_router
+from CRUDDebug import router as crud_debug_router, create_random_table, sort_many_table, delete_table
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -21,6 +21,8 @@ models.Base.metadata.create_all(bind=engine)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+
+# роутеры
 app.include_router(crud_router)
 app.include_router(crud_debug_router)
 
@@ -28,9 +30,33 @@ app.include_router(crud_debug_router)
 # Вывод дебаг страницы
 @app.get("/table_debug", response_class=HTMLResponse)
 async def table_selector(request: Request, data=Depends(get_tables)):
-    if not data:
+    if data["status_code"] != 200:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("debug.html", {"request": request, "tables": data})
+    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
+
+
+# Вывод дебаг создание страницы
+@app.get("/table_debug/create/{table_name}", response_class=HTMLResponse)
+async def table_debug_create(table_name: str, request: Request, data=Depends(create_random_table)):
+    if data["status_code"] != 200:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
+
+
+# Вывод дебаг сортировка страницы
+@app.get("/table_debug/sort/{table_name}", response_class=HTMLResponse)
+async def table_debug_sort(table_name: str, request: Request, data=Depends(sort_many_table)):
+    if data["status_code"] != 200:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
+
+
+# Вывод  дебаг удаление страницы
+@app.get("/table_debug/delete/{table_name}", response_class=HTMLResponse)
+async def table_debug_delete(table_name: str, request: Request, data=Depends(delete_table)):
+    if data["status_code"] != 200:
+        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+    return templates.TemplateResponse("debug.html", {"request": request, "tables": data["db_answer"]})
 
 
 # Разширенная обработка ошибок валидации данных/
@@ -49,7 +75,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 async def table_selector(request: Request, data=Depends(get_tables)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"]})
 
 
 # Проверка на пустой фильтр
@@ -63,7 +89,7 @@ async def table_filter(request: Request):
 async def table_filter(table_name: str, request: Request, data=Depends(get_table_by_name)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data, "filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "filter": table_name})
 
 
 # Проверка на пустой игнор-фильтр
@@ -77,7 +103,7 @@ async def table_ignore_filter(request: Request):
 async def table_ignore_filter(table_name: str, request: Request, data=Depends(get_ignore_filtered_tables)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data, "ignore_filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "ignore_filter": table_name})
 
 
 # Вывод страницы для редоктирования таблицы
@@ -85,7 +111,7 @@ async def table_ignore_filter(table_name: str, request: Request, data=Depends(ge
 async def table_editor(table_id: int, request: Request, data=Depends(get_table_by_id)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("edit.html", {"request": request, "table": data})
+    return templates.TemplateResponse("edit.html", {"request": request, "table": data["db_answer"]})
 
 
 # Вывод пустые таблицы + вывод начальной страницы
