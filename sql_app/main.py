@@ -9,7 +9,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from CRUD import router as crud_router, get_all_tables
+from CRUD import router as crud_router, get_tables, get_ignore_filtered_tables, get_table_by_name, get_table_by_id, \
+    create_table, remove_table_by_id, remove_table_by_name, sort_table, change_table
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -34,7 +35,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 # Вывод главной страницы
 @app.get("/table_selector", response_class=HTMLResponse)
-async def table_selector(request: Request, data=Depends(get_all_tables)):
+async def table_selector(request: Request, data=Depends(get_tables)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
     return templates.TemplateResponse("home.html", {"request": request, "tables": data})
@@ -42,80 +43,67 @@ async def table_selector(request: Request, data=Depends(get_all_tables)):
 
 # Проверка на пустой фильтр
 @app.get("/table_filter", response_class=HTMLResponse)
-async def table_filter(request: Request, db: db_dependence):
+async def table_filter(request: Request):
     return RedirectResponse("/table_selector")
 
 
 # Вывод главной страницы c фильтром
 @app.get("/table_filter/{table_name}", response_class=HTMLResponse)
-async def table_filter(table_name: str, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).offset(0).limit(20).all()
-    if not db_answer:
+async def table_filter(table_name: str, request: Request, data=Depends(get_table_by_name)):
+    if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data, "filter": table_name})
 
 
 # Проверка на пустой игнор-фильтр
 @app.get("/table_ignore_filter", response_class=HTMLResponse)
-async def table_ignore_filter(request: Request, db: db_dependence):
+async def table_ignore_filter(request: Request):
     return RedirectResponse("/table_selector")
 
 
 # Вывод главной страницы c игнор-фильтром
 @app.get("/table_ignore_filter/{table_name}", response_class=HTMLResponse)
-async def table_ignore_filter(table_name: str, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_name != table_name).offset(0).limit(20).all()
-    if not db_answer:
+async def table_ignore_filter(table_name: str, request: Request, data=Depends(get_ignore_filtered_tables)):
+    if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": db_answer, "ignore_filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data, "ignore_filter": table_name})
 
 
 # Вывод страницы для редоктирования таблицы
 @app.get("/table_editor/{table_id}", response_class=HTMLResponse)
-async def table_editor(table_id: int, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
-    if not db_answer:
+async def table_editor(table_id: int, request: Request, data=Depends(get_table_by_id)):
+    if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("edit.html", {"request": request, "table": db_answer})
+    return templates.TemplateResponse("edit.html", {"request": request, "table": data})
 
 
-# Создаёт пустые таблицы + вывод начальной страницы
+# Вывод пустые таблицы + вывод начальной страницы
 @app.get("/table_creator/{table_name}", response_class=HTMLResponse)
-async def table_creator(table_name: str, request: Request, db: db_dependence):
-    db_answer = models.Datum(table_name=table_name, table_datum={"0": [], '1': []})
-    db.add(db_answer)
-    db.commit()
-    db.refresh(db_answer)
-
-    if not db_answer:
+async def table_creator(table_name: str, request: Request, data=Depends(create_table)):
+    if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
     return RedirectResponse("/table_selector")
 
 
 # Удаление всех таблиц по имени + вывод начальной страницы
-@app.delete("/table_remover_by_name/{table_name}", response_class=HTMLResponse)
-async def table_remover(table_name: str, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).first()
-    while db_answer:
-        db.delete(db_answer)
-        db.commit()
-        db_answer = db.query(models.Datum).filter(models.Datum.table_name == table_name).first()
-
+@app.get("/table_remover_by_name/{table_name}", response_class=HTMLResponse)
+async def table_remover(table_name: str, request: Request, data=Depends(remove_table_by_name)):
     return RedirectResponse("/table_selector")
 
 
 # Удаление таблицы по id + вывод начальной страницы
-@app.delete("/table_remover_by_id/{table_id}", response_class=HTMLResponse)
-async def table_remover(table_id: int, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
-    db.delete(db_answer)
-    db.commit()
-
+@app.get("/table_remover_by_id/{table_id}", response_class=HTMLResponse)
+async def table_remover(table_id: int, request: Request, data=Depends(remove_table_by_id)):
     return RedirectResponse("/table_selector")
 
 
 # Сортировка таблицы + вывод начальной страницы
-@app.put("/table_sorter/{table_id}", response_class=HTMLResponse)
-async def table_sorter(table_id: int, request: Request, db: db_dependence):
-    db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
-    return db_answer
+@app.get("/table_sorter/{table_id}", response_class=HTMLResponse)
+async def table_sorter(table_id: int, request: Request, data=Depends(sort_table)):
+    return RedirectResponse("/table_editor/" + str(table_id))
+
+
+# Изменение таблицы + вывод начальной страницы
+@app.get("/table_changer/{table_id}", response_class=HTMLResponse)
+async def table_changer(table_id: int, request: Request, data=Depends(change_table)):
+    return RedirectResponse("/table_editor/" + str(table_id))
