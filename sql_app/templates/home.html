@@ -55,7 +55,7 @@
 
                 <!-- Блок Удаления таблиц -->
                 <div class="p-2 flex-fill bd-highlight">
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalRemover">Удалить таблицы</button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ModalRemover">Удалить таблицу</button>
 
                     <div class="modal fade" id="ModalRemover" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
@@ -70,8 +70,8 @@
                             </div>
                           </div>
                           <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" onclick="DeleteTable();" data-bs-dismiss="modal">Удалить</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                            <button type="button" class="btn btn-primary" onclick="DeleteTable();" data-bs-dismiss="modal">Удалить</button>
                           </div>
                         </div>
                       </div>
