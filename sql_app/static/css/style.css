@@ -16,8 +16,8 @@ body{
     width: 100%;
     margin: 0;
     padding: 0;
-    background: #1C1C1E;
-    color: #EFEFF1;
+    background: #1C1C1E;        /* тёмно серый фон */
+    color: #EFEFF1;             /* почти белый текст */
 
     background-size: cover;
     display: flex;
@@ -43,25 +43,28 @@ body{
     width: 100%;
 }
 
+/* Кнопка создания таблицы */
 .btn-primary{
-    background-color: #9147FF;
+    background-color: #9147FF;     /* фиолетовый */
     border-color: #9147FF;
 }
 
+/* Кнопка создания таблицы при наведении */
 .btn-primary:hover {
-    background-color: #9569FF;
+    background-color: #9569FF;     /* фиолетовый посветлее) */
     border-color: #9569FF;
 }
 
+/* Кнопка создания таблицы при нажатии */
 .btn-check:active+.btn-primary, .btn-check:checked+.btn-primary, .btn-primary.active, .btn-primary:active, .show>.btn-primary.dropdown-toggle {
-    background-color: #9569FF;
+    background-color: #9569FF;     /* фиолетовый посветлее (как при наведении) */
     border-color: #9569FF;
 }
 
 .btn-check:focus+.btn-primary, .btn-primary:focus {
     background-color: #9569FF;
     border-color: #9569FF;
-    box-shadow: 0 0 0 0.25rem rgba(104,38,203,.5);
+    box-shadow: 0 0 0 0.25rem rgba(104,38,203,.5);   /* свечение при нажатии */
 }
 
 .form-control {
