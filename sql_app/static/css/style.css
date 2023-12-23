@@ -112,6 +112,46 @@ body{
     box-shadow: 0 0 0 0.25rem rgba(104,38,203,.5);
 }
 
+.btn-outline-danger {
+    color: #efeff1;
+    border-color: #dc3545;
+    background-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    color: #efeff1;
+    background-color: #bb2d3b;
+    border-color: #bb2d3b;
+}
+
+.input-group-text {
+    color: #efeff1;
+    background-color: #2f2f35;
+    border: #2f2f35;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #18181f;
+}
+
+.form-control {
+    background-color: #18181b;
+    color: #efeff1;
+    border-color: #2f2f35;
+}
+
+.modal-header {
+    border-bottom: #1c1c1e;
+}
+
+.modal-content {
+    background-color: #1c1c1e;
+}
+
+.modal-footer {
+    border-top: #1c1c1e;
+}
+
 hr{
     margin-top: 5px;
 }
