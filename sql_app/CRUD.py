@@ -112,6 +112,6 @@ async def change_table(table_id: int, table_name: str, data: list[float], reques
     db.commit()
     db.refresh(db_answer)
 
-    return db_answer
+    return {"status": 200}
 
 

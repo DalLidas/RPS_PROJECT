@@ -2,6 +2,15 @@ html {
   height: 100%;
 }
 
+a {
+  color: #EFEFF1;
+  text-decoration: none;
+}
+a:hover {
+  color: #EFEFF1;
+  text-decoration: none;
+}
+
 body{
     height: 100%;
     width: 100%;

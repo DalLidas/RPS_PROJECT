@@ -9,14 +9,36 @@
     <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_id/" + {{ table.table_id }};}</script>
     <script>const SortTable = () => {window.location.href = "/table_sorter/" + {{ table.table_id }};}</script>
-    <script>const ChangeTable = () => {window.location.href = "/table_changer/" + {{ table.table_id }};}</script>
+
+    <script>
+    const ChangeTable = () => {fetch('http://127.0.0.1:8000/CRUD/change_table/{{ table.table_id }}?table_name=' + document.getElementById("ModalEditorTableInputName").value, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(document.getElementById("ModalCreateTableInputData").value.split(", ").map(Number))
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the response data here
+            console.log(data);
+        })
+        .catch(error => {
+        // Handle any errors that occur during the request
+        console.error(error);
+        });
+
+        location.reload();
+    }
+    </script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
     <div class="main_container">
         <!-- Блок Лейбла -->
         <nav class="flex justify-center text-3xl my-3">
-               <h1 class="title">Сортировки от Вовки</h1>
+            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
         </nav>
 
         <!-- Блок Меню -->
@@ -38,8 +60,14 @@
                           </div>
                           <div class="modal-body">
                             <div class="mb-3">
-                              <label for="ModalCreateTableInputName" class="form-label">Название таблицы</label>
-                              <input type="text" class="form-control" id="ModalCreateTableInputName" placeholder="Название">
+                              <label for="ModalEditorTableInputName" class="form-label">Название таблицы</label>
+                              <input type="text" class="form-control" id="ModalEditorTableInputName" value="{{ table.table_name }}" placeholder="Название">
+                            </div>
+                          </div>
+                          <div class="modal-body">
+                            <div class="mb-3">
+                              <label for="ModalCreateTableInputData" class="form-label">Значения</label>
+                              <input type="text" class="form-control" id="ModalCreateTableInputData" placeholder="Значения должны разделяться запятой и пробелом">
                             </div>
                           </div>
                           <div class="modal-footer">
