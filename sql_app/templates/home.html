@@ -45,8 +45,8 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                             <button type="button" class="btn btn-primary" onclick="CreateTable();" data-bs-dismiss="modal">Создать</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                           </div>
                         </div>
                       </div>
@@ -106,7 +106,7 @@
             {% for table in tables %}
             <div class="col">
                 <button id="button-{{table.table_id}}" class="btn btn-outline-success" onclick="EditTable({{ table.table_id }});">
-                <div>Table: {{ table.table_name }}</div>
+                <div>{{ table.table_name }}</div>
                 </button>
             </div>
             {% endfor %}
