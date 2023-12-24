@@ -5,7 +5,7 @@ from fastapi.encoders import jsonable_encoder
 import models
 from database import db_dependence
 
-#from sortings.tree_sort import tree_sort
+from tree_sort import tree_sort
 
 router = APIRouter(
     prefix="/CRUD",
@@ -89,7 +89,7 @@ async def remove_table_by_id(table_id: int, request: Request, db: db_dependence)
 async def sort_table(table_id: int, request: Request, db: db_dependence):
     db_answer = db.query(models.Datum).filter(models.Datum.table_id == table_id).first()
     data = jsonable_encoder(db_answer.table_datum)
-    #data["1"] = tree_sort(data["0"])
+    data["1"] = tree_sort(data["0"])
 
     db_answer.sort_flag = True
     db_answer.table_datum = data
