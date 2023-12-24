@@ -1,4 +1,4 @@
-print("Привет мир")
+1print("Привет мир")
 
 
 import random
