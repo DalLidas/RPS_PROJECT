@@ -66,18 +66,18 @@ async def table_ignore_filter(request: Request):
 
 # Вывод главной страницы c игнор-фильтром
 @app.get("/table_ignore_filter/{table_name}", response_class=HTMLResponse)
-async def table_ignore_filter(table_name: str, request: Request, data=Depends(get_ignore_filtered_tables), visual_mode=Depends(get_visual_mod)):
+async def table_ignore_filter(table_name: str, request: Request, data=Depends(get_ignore_filtered_tables), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "visual_mod": visual_mode, "ignore_filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "visual_mod": visual_mod, "ignore_filter": table_name})
 
 
 # Вывод страницы для редоктирования таблицы
 @app.get("/table_editor/{table_id}", response_class=HTMLResponse)
-async def table_editor(table_id: int, request: Request, data=Depends(get_table_by_id), visual_mode=Depends(get_visual_mod)):
+async def table_editor(table_id: int, request: Request, data=Depends(get_table_by_id), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("edit.html", {"request": request, "table": data["db_answer"], "visual_mod": visual_mode})
+    return templates.TemplateResponse("edit.html", {"request": request, "table": data["db_answer"], "visual_mod": visual_mod})
 
 
 # Вывод пустые таблицы + вывод начальной страницы
