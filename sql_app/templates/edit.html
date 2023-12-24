@@ -5,8 +5,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='icon/favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', path='css/style_light.css') }}" rel="stylesheet">
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_id/" + {{ table.table_id }};}</script>
     <script>const SortTable = () => {window.location.href = "/table_sorter/" + {{ table.table_id }};}</script>
 
@@ -42,7 +44,7 @@
         </nav>
 
         <!-- Блок Меню -->
-        <div class="container">
+        <div class="menu_container">
             <h3 class="main_sub_label">Меню</h3>
             <hr>
 
@@ -97,7 +99,7 @@
         </div>
 
         <!-- Блок Демонстрирующий таблицу -->
-        <div class="container">
+        <div class="table_container">
             <h3 class="main_sub_label">Таблица: {{ table.table_name }} - id#{{ table.table_id }}</h3>
             <hr>
 
@@ -117,6 +119,11 @@
                 {% endif %}
             </div>
         </div>
+         <figure class="text-center">
+            <figcaption class="blockquote-footer">
+                ©2023 Hlebushek Inc. Все права защищены.
+            </figcaption>
+        </figure>
     </div>
 </body>
 

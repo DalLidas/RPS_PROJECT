@@ -24,7 +24,7 @@ templates = Jinja2Templates(directory="templates")
 app.include_router(crud_router)
 
 
-# Разширенная обработка ошибок валидации данных/
+# Разширенная обработка ошибок валидации данных
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
