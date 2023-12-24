@@ -24,7 +24,7 @@ def get_visual_mod(request: Request):
 async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit: int = 40):
     db_answer = db.query(models.Datum).offset(offset).limit(limit).all()
     if not db_answer:
-        raise HTTPException(status_code=404, detail="Data base doesn't have any table")
+        return {"status_code": 404, "db_answer": db_answer}
     return {"status_code": 200, "db_answer": db_answer}
 
 

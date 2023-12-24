@@ -19,7 +19,7 @@
     <script>const SetDarkMode = () => {document.cookie = "visual_mod=DarkMod; path=/"; location.reload();}</script>
 
     <script>
-    const ChangeTable = () => {fetch('http://127.0.0.1:8000/CRUD/change_table/{{ table.table_id }}?table_name=' + document.getElementById("ModalEditorTableInputName").value, {
+    const ChangeTable = () => {fetch('{{ host_url }}/CRUD/change_table/{{ table.table_id }}?table_name=' + document.getElementById("ModalEditorTableInputName").value, {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
@@ -49,11 +49,11 @@
         <div class="container-text">
           <div class="row justify-content-md-center">
             <div class="col-md-auto">
-              <a href="http://127.0.0.1:8000/table_selector"><img class="logo" src="{{ url_for('static', path='icon/logo.png') }}"></a>
+              <a href="{{ host_url }}/table_selector"><img class="logo" src="{{ url_for('static', path='icon/logo.png') }}"></a>
             </div>
             <div class="col-md-auto">
               <nav class="flex justify-center text-3xl my-3">
-                  <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
+                  <a href="{{ host_url }}/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
               </nav>
             </div>
             <div class="col col-">

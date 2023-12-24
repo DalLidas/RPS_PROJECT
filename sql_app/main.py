@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, status, Depends, Response, Cookie
+from fastapi import FastAPI, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError, HTTPException
 from fastapi.responses import JSONResponse
@@ -8,10 +8,11 @@ from fastapi.staticfiles import StaticFiles
 
 import models
 from database import engine
-from typing import Optional
 
 from CRUD import router as crud_router, get_tables, get_ignore_filtered_tables, get_table_by_name, get_table_by_id, \
     create_table, remove_table_by_id, remove_table_by_name, sort_table, change_table, get_visual_mod
+
+from config import HOST_URL
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -37,11 +38,18 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 # Вывод главной страницы
+@app.get("/")
+async def root():
+    return RedirectResponse("/table_selector")
+
+
+# Вывод главной страницы
 @app.get("/table_selector", response_class=HTMLResponse)
 async def table_selector(request: Request, data=Depends(get_tables), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "visual_mod": visual_mod})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"],
+                                                    "visual_mod": visual_mod, "host_url": HOST_URL})
 
 
 # Проверка на пустой фильтр
@@ -55,7 +63,8 @@ async def table_filter(request: Request):
 async def table_filter(table_name: str, request: Request, data=Depends(get_table_by_name), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "visual_mod": visual_mod, "filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "filter": table_name,
+                                                    "visual_mod": visual_mod, "host_url": HOST_URL})
 
 
 # Проверка на пустой игнор-фильтр
@@ -69,7 +78,8 @@ async def table_ignore_filter(request: Request):
 async def table_ignore_filter(table_name: str, request: Request, data=Depends(get_ignore_filtered_tables), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "visual_mod": visual_mod, "ignore_filter": table_name})
+    return templates.TemplateResponse("home.html", {"request": request, "tables": data["db_answer"], "ignore_filter": table_name,
+                                                    "visual_mod": visual_mod, "host_url": HOST_URL})
 
 
 # Вывод страницы для редоктирования таблицы
@@ -77,7 +87,8 @@ async def table_ignore_filter(table_name: str, request: Request, data=Depends(ge
 async def table_editor(table_id: int, request: Request, data=Depends(get_table_by_id), visual_mod=Depends(get_visual_mod)):
     if not data:
         raise HTTPException(status_code=404, detail="Data base doesn't have any table")
-    return templates.TemplateResponse("edit.html", {"request": request, "table": data["db_answer"], "visual_mod": visual_mod})
+    return templates.TemplateResponse("edit.html", {"request": request, "table": data["db_answer"],
+                                                    "visual_mod": visual_mod, "host_url": HOST_URL})
 
 
 # Вывод пустые таблицы + вывод начальной страницы
