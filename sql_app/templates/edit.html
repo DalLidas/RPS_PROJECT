@@ -126,20 +126,24 @@
 
         <!-- Блок Демонстрирующий таблицу -->
         <div class="table_container">
-            <h3 class="main_sub_label">Таблица: {{ table.table_name }} - id#{{ table.table_id }}</h3>
+
+            <div style="clear: both">
+                <h2 style="float: left" class="main_sub_label">Таблица: {{ table.table_name }}</h2>
+                <h3 style="float: left" class="sub_label">id {{ table.table_id }}</h3>
+            </div>
 <!--            <hr>-->
 
             <div class="">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="orig-table">⠀Исходная⠀ ⠀⠀⠀⠀ ⠀</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input"
+                    <input type="text" class="form-control list" aria-label="Sizing example input"
                            aria-describedby="orig-table" disabled value="{{table.table_datum['0']}}">
 
                 </div>
                 {% if table.sort_flag %}
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="sort-table">⠀Отсортированная⠀</span>
-                    <input type="text" class="form-control" aria-label="Sizing example input"
+                    <input type="text" class="form-control list" aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default" disabled value="{{table.table_datum['1']}}">
                 </div>
                 {% endif %}
