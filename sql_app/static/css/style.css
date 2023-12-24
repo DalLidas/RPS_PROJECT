@@ -1,12 +1,4 @@
-@font-face {
-  font-family: 'Segoe UI Variable Display';
-  src:
-    local('Segoe UI Variable Display'),
-    url('/fonts/SegoeUIVF-all.tff') format('truetype-variations');
-  font-variation-settings: 'opsz' 36;
-  /*font-weight: 300 700;*/
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
 
 html {
   height: 100%;
@@ -36,7 +28,7 @@ a:hover {
 }
 
 body{
-    font-family: 'Segoe UI Variable Display', sans-serif !important;
+    font-family: 'Montserrat', sans-serif;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -53,6 +45,10 @@ body{
 .title{
     font-weight: 600;
     padding-top: 30px;
+}
+
+@media (max-width: 500px) {
+    .title { font-size: 30px!important; }
 }
 
 .menu_container{

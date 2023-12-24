@@ -26,7 +26,7 @@
     <div class="main_container">
          <!-- Блок Лейбла -->
         <div class="container-text">
-          <div class="row justify-content-md-center">
+          <div class="row justify-content-md-left">
             <div class="col-md-auto">
               <a href="http://127.0.0.1:8000/table_selector"><img class="logo" src="{{ url_for('static', path='icon/logo.png') }}"></a>
             </div>
@@ -106,7 +106,7 @@
                 </div>
 
                 <!-- Блок Игнор-Фильтра для таблиц -->
-                <div class="p-2 flex-fill bd-highlight">
+                <div class="p-2 flex-fill bd-highlight search">
                   <div class="d-flex">
                     <input class="form-control me-2 border border-warning" type="search" id="IgnoreFilterTableName" value="{{ ignore_filter }}" aria-label="Игнорировать">
                     <button class="btn btn-outline-warning" type="button" onclick="IgnoreFilterTable();">Игнорировать</button>
@@ -114,7 +114,7 @@
                 </div>
 
                 <!-- Блок Фильтра для таблиц -->
-                <div class="p-2 flex-fill bd-highlight">
+                <div class="p-2 flex-fill bd-highlight search">
                   <div class="d-flex">
                     <input class="form-control me-2 border border-success" type="search" id="FilterTableName" value="{{ filter }}" aria-label="Поиск">
                     <button class="btn btn-outline-success" type="button" onclick="FilterTable();">Поиск</button>
