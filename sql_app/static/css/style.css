@@ -4,7 +4,7 @@
     local('Segoe UI Variable Display'),
     url('/fonts/SegoeUIVF-all.tff') format('truetype-variations');
   font-variation-settings: 'opsz' 36;
-  font-weight: 300 700;
+  /*font-weight: 300 700;*/
   font-style: normal;
 }
 
@@ -51,11 +51,19 @@ body{
 }
 
 .title{
+    font-weight: 600;
     padding-top: 30px;
 }
 
 .menu_container{
     margin-top: 40px;
+}
+
+.main_sub_label {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    font-size: xx-large;
 }
 
 .main_container{
@@ -260,6 +268,7 @@ body{
 }
 
 hr{
+    color: #1c1c1e;
     margin-top: 5px;
 }
 

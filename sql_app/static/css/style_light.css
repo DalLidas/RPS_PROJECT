@@ -1,3 +1,13 @@
+@font-face {
+  font-family: 'Segoe UI Variable Display';
+  src:
+    local('Segoe UI Variable Display'),
+    url('/fonts/SegoeUIVF-all.tff') format('truetype-variations');
+  font-variation-settings: 'opsz' 36;
+  /*font-weight: 300 700;*/
+  font-style: normal;
+}
+
 html {
   height: 100%;
 }
@@ -26,6 +36,7 @@ a:hover {
 }
 
 body{
+    font-family: 'Segoe UI Variable Display', sans-serif !important;
     height: 100%;
     width: 100%;
     margin: 0;
@@ -40,11 +51,19 @@ body{
 }
 
 .title{
+    font-weight: 600;
     padding-top: 30px;
 }
 
 .menu_container{
     margin-top: 40px;
+}
+
+.main_sub_label {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    font-size: xx-large;
 }
 
 .main_container{
