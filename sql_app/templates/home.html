@@ -18,24 +18,32 @@
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_name/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
     <script>const FilterTable = () => {window.location.href = "/table_filter/" + document.getElementById("FilterTableName").value;}</script>
     <script>const IgnoreFilterTable = () => {window.location.href = "/table_ignore_filter/" + document.getElementById("IgnoreFilterTableName").value;}</script>
-    <script>const SetLightMode = () => {document.cookie = "visual_mod=LightMod"; location.reload();}</script>
-    <script>const SetDarkMode = () => {document.cookie = "visual_mod=DarkMod"; location.reload();}</script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
     <div class="main_container">
          <!-- Блок Лейбла -->
-        <nav class="flex justify-center text-3xl my-3">
-            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
-        </nav>
+        <div class="container-text">
+          <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+              <a href="http://127.0.0.1:8000/table_selector"><img class="logo" src="{{ url_for('static', path='icon/logo.png') }}"></a>
+            </div>
+            <div class="col-md-auto">
+              <nav class="flex justify-center text-3xl my-3">
+                  <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
+              </nav>
+            </div>
+            <div class="col col-lg-4">
 
-        <button class="btn btn-outline-success" onclick="SetLightMode();">
-                <div>Светлая тема</div>
-        </button>
-
-        <button class="btn btn-outline-success" onclick="SetDarkMode();">
-                <div>Тёмная тема</div>
-        </button>
+            </div>
+              <div class="col-md-auto">
+              <img class="dark_mode_switch" src="{{ url_for('static', path='icon/light.svg') }}">
+            </div>
+          </div>
+        </div>
+<!--        <nav class="flex justify-center text-3xl my-3">-->
+<!--            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>-->
+<!--        </nav>-->
 
         <!-- Блок Меню -->
         <div class="menu_container">

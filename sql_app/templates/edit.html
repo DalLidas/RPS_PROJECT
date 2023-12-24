@@ -7,11 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='icon/favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    {% if visual_mod == "DarkMod" %}
-        <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
-    {% else %}
-        <link href="{{ url_for('static', path='css/style_light.css') }}" rel="stylesheet">
-    {% endif %}
+    <link href="{{ url_for('static', path='css/style.css') }}" rel="stylesheet">
+<!--    <link href="{{ url_for('static', path='css/style_light.css') }}" rel="stylesheet">-->
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_id/" + {{ table.table_id }};}</script>
     <script>const SortTable = () => {window.location.href = "/table_sorter/" + {{ table.table_id }};}</script>
 
@@ -42,9 +39,27 @@
 <body>
     <div class="main_container">
         <!-- Блок Лейбла -->
-        <nav class="flex justify-center text-3xl my-3">
-            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
-        </nav>
+        <div class="container-text">
+          <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+              <a href="http://127.0.0.1:8000/table_selector"><img class="logo" src="{{ url_for('static', path='icon/logo.png') }}"></a>
+            </div>
+            <div class="col-md-auto">
+              <nav class="flex justify-center text-3xl my-3">
+                  <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
+              </nav>
+            </div>
+            <div class="col col-lg-4">
+
+            </div>
+              <div class="col-md-auto">
+              <img class="dark_mode_switch" src="{{ url_for('static', path='icon/light.svg') }}">
+            </div>
+          </div>
+        </div>
+<!--        <nav class="flex justify-center text-3xl my-3">-->
+<!--            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>-->
+<!--        </nav>-->
 
         <!-- Блок Меню -->
         <div class="menu_container">

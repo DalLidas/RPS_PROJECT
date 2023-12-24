@@ -2,6 +2,15 @@ html {
   height: 100%;
 }
 
+.container-text {
+    margin-top: 25px;
+}
+
+.logo {
+    width: 80px;
+    padding-top: 50%/*40px*/;
+}
+
 a {
   color: #EFEFF1;
   text-decoration: none;
@@ -9,6 +18,11 @@ a {
 a:hover {
   color: #fff;
   text-decoration: none;
+}
+
+.dark_mode_switch {
+    width: 50px;
+    padding-top: 55px;
 }
 
 body{
