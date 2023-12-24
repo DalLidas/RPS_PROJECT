@@ -13,6 +13,12 @@ router = APIRouter(
 )
 
 
+# читает из куки цветовую тему
+@router.get("/get_visual_mod")
+def get_visual_mod(request: Request):
+    return request.cookies.get('visual_mod')
+
+
 # Запрос для вывода всех таблиц
 @router.get("/get_tables")
 async def get_tables(request: Request, db: db_dependence, offset: int = 0, limit: int = 40):
