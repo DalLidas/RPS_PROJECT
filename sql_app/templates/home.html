@@ -18,6 +18,8 @@
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_name/" + document.getElementById("ModalCreateTableDeleteName").value;}</script>
     <script>const FilterTable = () => {window.location.href = "/table_filter/" + document.getElementById("FilterTableName").value;}</script>
     <script>const IgnoreFilterTable = () => {window.location.href = "/table_ignore_filter/" + document.getElementById("IgnoreFilterTableName").value;}</script>
+    <script>const SetLightMode = () => {document.cookie = "visual_mod=LightMod"; location.reload();}</script>
+    <script>const SetDarkMode = () => {document.cookie = "visual_mod=DarkMod"; location.reload();}</script>
     <title>Сортировки от Вовки</title>
 </head>
 <body>
@@ -37,13 +39,14 @@
 
             </div>
               <div class="col-md-auto">
-              <img class="dark_mode_switch" src="{{ url_for('static', path='icon/light.svg') }}">
+              {% if visual_mod == "DarkMod" %}
+                    <img class="dark_mode_switch" src="{{ url_for('static', path='icon/light.svg') }}" onclick="SetLightMode();">
+                {% else %}
+                    <img class="dark_mode_switch" src="{{ url_for('static', path='icon/dark.svg') }}" onclick="SetDarkMode();">
+                {% endif %}
             </div>
           </div>
         </div>
-<!--        <nav class="flex justify-center text-3xl my-3">-->
-<!--            <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>-->
-<!--        </nav>-->
 
         <!-- Блок Меню -->
         <div class="menu_container">

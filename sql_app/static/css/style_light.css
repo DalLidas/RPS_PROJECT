@@ -2,6 +2,15 @@ html {
   height: 100%;
 }
 
+.container-text {
+    margin-top: 25px;
+}
+
+.logo {
+    width: 80px;
+    padding-top: 50%/*40px*/;
+}
+
 a {
   color: #10100e;
   text-decoration: none;
@@ -9,6 +18,11 @@ a {
 a:hover {
   color: #34342d;
   text-decoration: none;
+}
+
+.dark_mode_switch {
+    width: 50px;
+    padding-top: 55px;
 }
 
 body{
@@ -29,13 +43,18 @@ body{
     padding-top: 30px;
 }
 
-.container{
+.menu_container{
     margin-top: 40px;
 }
 
 .main_container{
     height: 100%;
     width: 70%;
+}
+
+.table_container{
+    margin-top: 40px;
+    padding-bottom: 80px;
 }
 
 .btn {
@@ -203,6 +222,12 @@ body{
     background-color: #e6e6ea;
 }
 
+.form-control {
+    background-color: #e6e6ea;
+    color: #10100e;
+    border-color: #e6e6ea;
+}
+
 .modal-header {
     border-bottom: #f7f7f8;
 }
@@ -213,6 +238,14 @@ body{
 
 .modal-footer {
     border-top: #f7f7f8;
+}
+
+.text-center {
+    padding-bottom: 10px;
+}
+
+.blockquote-footer::after {
+    content: " —";
 }
 
 hr{
