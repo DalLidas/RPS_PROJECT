@@ -32,5 +32,4 @@ def tree_sort(arr):
         root.insert(item)
     result = []
     root.inorder_traversal(result)
-    #result = [str(num).rstrip('0').rstrip('.') for num in result]
     return result
