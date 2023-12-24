@@ -24,7 +24,7 @@ templates = Jinja2Templates(directory="templates")
 app.include_router(crud_router)
 
 
-# Разширенная обработка ошибок валидации данных/
+# Разширенная обработка ошибок валидации данных
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
@@ -49,7 +49,7 @@ async def table_filter(request: Request):
     return RedirectResponse("/table_selector")
 
 
-# Вывод главной страницы c фильтром
+# Вывод главной страницы c фильтром/
 @app.get("/table_filter/{table_name}", response_class=HTMLResponse)
 async def table_filter(table_name: str, request: Request, data=Depends(get_table_by_name)):
     if not data:
