@@ -15,6 +15,8 @@
 
     <script>const DeleteTable = () => {window.location.href = "/table_remover_by_id/" + {{ table.table_id }};}</script>
     <script>const SortTable = () => {window.location.href = "/table_sorter/" + {{ table.table_id }};}</script>
+    <script>const SetLightMode = () => {document.cookie = "visual_mod=LightMod"; location.reload();}</script>
+    <script>const SetDarkMode = () => {document.cookie = "visual_mod=DarkMod"; location.reload();}</script>
 
     <script>
     const ChangeTable = () => {fetch('http://127.0.0.1:8000/CRUD/change_table/{{ table.table_id }}?table_name=' + document.getElementById("ModalEditorTableInputName").value, {
@@ -39,9 +41,6 @@
     }
     </script>
 
-    <script>const SetLightMode = () => {document.cookie = "visual_mod=LightMod"; location.reload();}</script>
-    <script>const SetDarkMode = () => {document.cookie = "visual_mod=DarkMod"; location.reload();}</script>
-
     <title>Сортировки от Вовки</title>
 </head>
 <body>
@@ -57,7 +56,7 @@
                   <a href="http://127.0.0.1:8000/table_selector"><h1 class="title">Сортировки от Вовки</h1></a>
               </nav>
             </div>
-            <div class="col col-lg-4">
+            <div class="col col-">
 
             </div>
               <div class="col-md-auto">
